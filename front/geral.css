@@ -1,0 +1,179 @@
+:root {
+    --branco: #fff;
+    --brancoClaro: #eeedeb;
+    --azulClaro: #cce2e2;
+    --cinza: #b3b3b3;
+    --ciano: #44babc;
+    --verdeAzulado: #35797d;
+    --preto: #000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    background-color: var(--azulClaro);
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+header h2{
+    cursor: pointer;
+    display: none;
+}
+
+header h1 {
+    color: var(--verdeAzulado);
+    font-size: 3rem;
+}
+
+.tech {
+    color: white;
+    background-color: var(--ciano);
+    padding: 10px 15px;
+}
+
+.direita {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 30%;
+    height: 5vh;
+    color: var(--verdeAzulado);
+}
+
+.direita img {
+    height: 60%;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: flex-start;
+    height: fit-content;
+    width: 90%;
+    padding: 20px;
+}
+
+.equipamento {
+    display: flex;
+    background-color: var(--branco);
+    border-bottom: 1px dotted var(--ciano);
+    padding: 16px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.imagem {
+    border: 1px solid var(--verdeAzulado);
+    width: 150px;
+    align-content: center;
+    margin-right: 10px;
+}
+
+.imagem img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.botoes {
+    display: flex;
+    margin-top: 10px;
+}
+
+.botoes button {
+    background-color: var(--ciano);
+    color: var(--branco);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+}
+
+.botoes button:hover {
+    background-color: var(--verdeAzulado);
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Maximum width for larger screens */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+label {
+    margin-top: 10px;
+    display: block; /* Block display for labels */
+}
+
+input, textarea {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Rounded corners */
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: var(--ciano);
+    color: var(--branco);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--verdeAzulado);
+}

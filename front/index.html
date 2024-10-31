@@ -4,14 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="geral.css">
 </head>
 <body>
     <header>
-        <h1>TECHMAN</h1>
+        <h1><span class="tech">TECH</span>MAN</h1>
         <div class="direita">
-            <h2>Novo equipamento</h2>
-            <img src="logout.png" alt="icon logout">
+            <h2 id="novo-equipamento" onclick="openModal()">Novo equipamento</h2>
+
+            <img src="logout.png" alt="icon logout"  id="logout">
         </div>
     </header>
+    <main>
+        
+    </main>
+    <!-- Modal novo equipamento -->
+    <div id="createEquipamentoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Criar Novo Equipamento</h2>
+            <form id="equipamentoForm">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required>
+
+                <label for="ativo">Ativo:</label>
+                <select id="ativo" name="ativo">
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+
+                <label for="imagem">Imagem:</label>
+                <input type="text" id="imagem" name="imagem" placeholder="URL da imagem">
+
+                <button type="submit">Criar Equipamento</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal exclusao -->
+    <div id="deleteEquipamentoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h2>Exclusão de equipamento</h2>
+            <p>Atenção, tem certeza que deseja excluir o equipamento? Essa ação não poderá ser desfeita</p>
+            <button id="confirmDelete">Excluir</button> 
+        </div>
+    </div>
+    
+    <script src="geral.js"></script>
+    <script src="modais.js"></script>
 </body>
 </html>

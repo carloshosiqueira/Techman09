@@ -15,11 +15,11 @@ async function main() {
     // Inserir equipamentos
     await prisma.equipamento.createMany({
         data: [
-            { id: 1, descricao: 'Torno Mecânico 500mm Modelo BV20L 220V - TTM520 - Tander', imagem: 'Torno_Mecanico_500mm.png', ativo: true, data: new Date('2019-10-01T14:54:20.873Z') },
-            { id: 2, descricao: 'Processador Intel Core i9-7920X Skylake, Cache 16.5MB, 2.9GHz (4.3GHz Max Turbo), LGA 2066 - BX80673I97920X', imagem: 'Intel_Core_i9.png', ativo: true, data: new Date('2019-10-01T15:00:20.873Z') },
-            { id: 3, descricao: 'Monitor, Dell, U2518D, UltraSharp, Preto e Suporte em Alumínio, 25"', imagem: 'Monitor_Dell.png', ativo: false, data: new Date('2018-10-01T10:00:20.000Z') },
-            { id: 4, descricao: 'Mouse Gamer Razer Deathadder Essential óptico 5 Botões 4G 6.400 DPI', imagem: 'Mouse_Razer.png', ativo: true, data: new Date('2017-10-01T09:00:20.000Z') },
-            { id: 5, descricao: 'All-in-One Media Keyboard', imagem: 'Teclado_Microsoft.png', ativo: false, data: new Date('2017-10-01T13:00:00.000Z') },
+            { id: 1, nome: "Torno Mecçnico 500mm Modelo BV20L 220V - TTM520 - Tander", descricao: 'Torno Mecânico 500mm Modelo BV20L 220V - TTM520 - Tander', imagem: 'Torno_Mecanico_500mm.png', ativo: true, data: new Date('2019-10-01T14:54:20.873Z') },
+            { id: 2, nome: "Processador Intel Core i9-7920X Skylake, Cache 16.5MB, 2.9GHz (4.3GHz Max Turbo)",descricao: 'Processador Intel Core i9-7920X Skylake, Cache 16.5MB, 2.9GHz (4.3GHz Max Turbo), LGA 2066 - BX80673I97920X', imagem: 'Intel_Core_i9.png', ativo: true, data: new Date('2019-10-01T15:00:20.873Z') },
+            { id: 3, nome: "Monitor, Dell, U2518D, UltraSharp, Preto e Suporte em Alumçnio, 25",descricao: 'Monitor, Dell, U2518D, UltraSharp, Preto e Suporte em Alumínio, 25"', imagem: 'Monitor_Dell.png', ativo: false, data: new Date('2018-10-01T10:00:20.000Z') },
+            { id: 4, nome: "Mouse Gamer Razer Deathadder Essential optico 5 botões 4G 6.400 DPI",descricao: 'Mouse Gamer Razer Deathadder Essential óptico 5 Botões 4G 6.400 DPI', imagem: 'Mouse_Razer.png', ativo: true, data: new Date('2017-10-01T09:00:20.000Z') },
+            { id: 5, nome: "All-in-One Media Keyboard",descricao: 'All-in-One Media Keyboard', imagem: 'Teclado_Microsoft.png', ativo: false, data: new Date('2017-10-01T13:00:00.000Z') },
         ],
     });
 

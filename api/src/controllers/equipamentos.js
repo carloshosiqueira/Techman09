@@ -39,7 +39,27 @@ const create = async (req, res) => {
     }
 };
 
+const del = async (req, res) => {
+    try {
+        if (req.params.id) {
+            const equipamento = await prisma.equipamento.delete({
+                where: {
+                    id: parseInt(req.params.id),
+                },
+            });
+            if (!equipamento) {
+                return res.status(404).json({ message: 'Equipamento não encontrado' });
+            }
+            return res.status(200).json({ message: 'Equipamento deletado com sucesso' });
+        }
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({ error: 'Erro ao deletar equipamento' });
+    }
+}
+
 module.exports = {
     read,
     create,
+    del,
 };
