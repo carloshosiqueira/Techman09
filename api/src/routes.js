@@ -9,6 +9,7 @@ const Usuario = require('./controllers/usuario');
 router.post('/login', Usuario.login);
 
 router.get('/comentario', Comentario.read);
+router.get('/comentario/equipamento/:equipamentoId', Comentario.readComentarioByEquipamentoId);
 router.get('/comentario/:id', Comentario.read);
 router.post('/comentario', Comentario.create);
 

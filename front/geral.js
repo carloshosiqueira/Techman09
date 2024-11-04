@@ -9,8 +9,6 @@ addEventListener('DOMContentLoaded', () => {
         return; // Exit early if no user data is found
     }
 
-    console.log('Profile Name:', usuario.perfil.perfil); // Access the profile name
-
     // Show the option for admins
     if (usuario.perfil.perfil === 'Administrador') {
         document.getElementById('novo-equipamento').style.display = 'block'; // Show the option for admins
@@ -40,11 +38,11 @@ addEventListener('DOMContentLoaded', () => {
                         <h2>${equipamento.nome}</h2>
                         <p>${equipamento.descricao}</p>
                         <div class="botoes">
-                            <button id="btnComentario">&#128172;</button>
-                            ${usuario.perfil.perfil === 'Administrador' ? '<button id="btnExcluir">&#128465;</button>' : ''}
+                            <button id="btnComentario" onclick="abrirModalComentario(${equipamento.id})">&#128172;</button>
+                            ${usuario.perfil.perfil === 'Administrador' ? `<button id="btnExcluir" onclick="abrirModalExcluir(${equipamento.id})">&#128465;</button>` : ''}
                         </div>
                     </div>`;
-                    main.appendChild(div); // Append the created div to the main element
+                    main.appendChild(div);
                 }
             });
         } catch (e) {

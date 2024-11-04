@@ -27,6 +27,20 @@ const read = async (req, res) => {
     }
 };
 
+const readComentarioByEquipamentoId = async (req, res) => {
+    try {
+        const comentarios = await prisma.comentario.findMany({
+            where: {
+                equipamentoId: parseInt(req.params.equipamentoId),
+            },
+        });
+        return res.status(200).json(comentarios);
+        } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Erro ao buscar comentários do equipamento' });
+    }
+}
+
 const create = async (req, res) => {
     try {
         const comentario = await prisma.comentario.create({
@@ -41,5 +55,6 @@ const create = async (req, res) => {
 
 module.exports = {
     read,
+    readComentarioByEquipamentoId,
     create,
 };

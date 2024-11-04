@@ -1,25 +1,39 @@
-// Get the modal
-var modal = document.getElementById("createEquipamentoModal");
-var excluir = document.getElementById("deleteEquipamentoModal");
+// Get the Modal
+var createModal = document.getElementById("createEquipamentoModal");
+var deleteModal = document.getElementById("deleteEquipamentoModal");
+var comentarioModal = document.getElementById("comentarioEquipamentoModal");
+var equipamentoIdToDelete;
 
-// Function to open the modal
+// Function to open the create modal
 function openModal() {
-    modal.style.display = "block";
+    createModal.style.display = "block";
 }
 
-// Function to close the modal
+// Function to close the create modal
 function closeModal() {
-    modal.style.display = "none";
+    createModal.style.display = "none";
 }
 
-// Close the modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target === modal) {
-        closeModal();
-    }
+function closeDeleteModal() {
+    deleteModal.style.display = "none";
 }
 
-// Handle form submission
+// Function to open the delete modal
+function abrirModalExcluir(equipamentoId) {
+    equipamentoIdToDelete = equipamentoId; // Store the ID to delete
+    deleteModal.style.display = 'block';
+    console.log(equipamentoIdToDelete);
+}
+
+function abrirModalComentario(){
+    comentarioModal.style.display = 'block';
+}
+
+function closeComentarioModal() {
+    comentarioModal.style.display = "none";
+}
+
+// Handle form submission for creating an equipment
 document.getElementById('equipamentoForm').addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the default form submission
 
@@ -58,6 +72,7 @@ document.getElementById('equipamentoForm').addEventListener('submit', async (eve
 
         // Optionally, close the modal after submission
         closeModal();
+        window.location.reload();
 
     } catch (e) {
         console.error(e);
@@ -65,28 +80,45 @@ document.getElementById('equipamentoForm').addEventListener('submit', async (eve
     }
 });
 
-const btnExcluir = document.getElementById('btnExcluir');
-btnExcluir.addEventListener('click', (e)=> {
-    e.preventDefault();
-    excluir.style.display = 'block';
-})
+// Confirm deletion
+document.getElementById('confirmDelete').addEventListener('click', async () => {
+    try {
+        const response = await fetch(`http://localhost:3000/equipamento/${equipamentoIdToDelete}`, {
+            method: 'DELETE',
+        });
 
+        if (response.ok) {
+            // Optionally, remove the element from the DOM
+            document.querySelector(`[data-id="${equipamentoIdToDelete}"]`).remove();
+            deleteModal.style.display = 'none'; // Close the modal
+        } else {
+            console.error('Failed to delete equipamento');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
 
-// // Confirm deletion
-// document.getElementById('confirmDelete').addEventListener('click', async () => {
-//     try {
-//         const response = await fetch(`http://localhost:3000/equipamento/$`, {
-//             method: 'DELETE',
-//         });
+//Exibir Comentarios
+const divComentarios = document.getElementById('comentarios');
+async function getComentarios (equipamentoId) {
+    try {
+        const response = await fetch(`http://localhost:3000/comentario/equipamento/${equipamentoId}`);
+        const comentarios = await response.json();
+        divComentarios.innerHTML = ''; // Limpa os comentarios antigos
+        comentarios.forEach(comentario => {
+            const comentarioFeito = document.createElement('div');
+            comentarioFeito.className = 'comentario';
+            comentarioFeito.innerHTML = `
+                <h3>${comentario.nome}</h3>
+                <p>${comentario.comentario}</p>
+                <p>${comentario.data.split('T')[0]}</p>
+            `;
 
-//         if (response.ok) {
-//             // Optionally, remove the element from the DOM
-//             document.querySelector(`[data-id="${equipamentoIdToDelete}"]`).remove();
-//             deleteEquipamentoModal.style.display = 'none'; // Close the modal
-//         } else {
-//             console.error('Failed to delete equipamento');
-//         }
-//     } catch (error) {
-//         console.error('Error:', error);
-//     }
-// });
+            divComentarios.appendChild(comentarioFeito);
+        });
+} catch (e) {
+    console.error(e);
+    alert('Erro ao buscar comentarios:'+ e.message);
+}
+}
