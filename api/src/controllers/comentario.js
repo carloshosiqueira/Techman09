@@ -29,29 +29,56 @@ const read = async (req, res) => {
 
 const readComentarioByEquipamentoId = async (req, res) => {
     try {
+        // Alterando a consulta para ordenar os comentários pela data, mais recentes primeiro
         const comentarios = await prisma.comentario.findMany({
             where: {
                 equipamentoId: parseInt(req.params.equipamentoId),
             },
+            include: {
+                usuario: { 
+                    select: {
+                        perfil: true,
+                    },
+                },
+            },
+            orderBy: {
+                data: 'desc',
+            },
         });
+
         return res.status(200).json(comentarios);
-        } catch (error) {
+    } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Erro ao buscar comentários do equipamento' });
     }
-}
+};
+
+
 
 const create = async (req, res) => {
     try {
-        const comentario = await prisma.comentario.create({
-            data: req.body,
+        const { comentario, usuarioId, equipamentoId } = req.body;
+
+        if (!comentario || comentario.trim() === '') {
+            return res.status(400).json({ error: 'Comentário não pode ser vazio!' });
+        }
+
+        const novoComentario = await prisma.comentario.create({
+            data: {
+                comentario: comentario.trim(),
+                data: new Date().toISOString(),
+                usuarioId,
+                equipamentoId,
+            },
         });
-        return res.status(201).json(comentario);
+
+        return res.status(201).json(novoComentario);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Erro ao criar comentário' });
     }
 };
+
 
 module.exports = {
     read,

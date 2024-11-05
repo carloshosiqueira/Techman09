@@ -2,14 +2,14 @@
 var createModal = document.getElementById("createEquipamentoModal");
 var deleteModal = document.getElementById("deleteEquipamentoModal");
 var comentarioModal = document.getElementById("comentarioEquipamentoModal");
+var createComentarioModal = document.getElementById("createComentarioEquipamentoModal");
 var equipamentoIdToDelete;
+let equipamentoIdGlobal = null;
 
-// Function to open the create modal
 function openModal() {
     createModal.style.display = "block";
 }
 
-// Function to close the create modal
 function closeModal() {
     createModal.style.display = "none";
 }
@@ -18,20 +18,30 @@ function closeDeleteModal() {
     deleteModal.style.display = "none";
 }
 
-// Function to open the delete modal
 function abrirModalExcluir(equipamentoId) {
-    equipamentoIdToDelete = equipamentoId; // Store the ID to delete
+    equipamentoIdToDelete = equipamentoId;
     deleteModal.style.display = 'block';
     console.log(equipamentoIdToDelete);
 }
 
-function abrirModalComentario(){
+function abrirModalComentario(equipamentoId){
     comentarioModal.style.display = 'block';
+    equipamentoIdGlobal = equipamentoId
 }
 
 function closeComentarioModal() {
     comentarioModal.style.display = "none";
 }
+function abrirCreateModalComentario(){
+    createComentarioModal.style.display = 'block';
+    comentarioModal.style.display = 'none';
+}
+
+function closeCreateComentarioModal() {
+    createComentarioModal.style.display = "none";
+}
+
+
 
 // Handle form submission for creating an equipment
 document.getElementById('equipamentoForm').addEventListener('submit', async (event) => {
@@ -40,8 +50,7 @@ document.getElementById('equipamentoForm').addEventListener('submit', async (eve
     try {
         const nome = document.getElementById('nome').value;
         const descricao = document.getElementById('descricao').value;
-        const dataInput = document.getElementById('data').value; // Get input value
-        const data = new Date(dataInput).toISOString(); // Convert to ISO string
+        const data = new Date().toISOString(); // Convert to ISO string
         const ativo = document.getElementById('ativo').value === 'true'; // Convert string to boolean
         const imagem = document.getElementById('imagem').value;
 
@@ -105,20 +114,86 @@ async function getComentarios (equipamentoId) {
     try {
         const response = await fetch(`http://localhost:3000/comentario/equipamento/${equipamentoId}`);
         const comentarios = await response.json();
-        divComentarios.innerHTML = ''; // Limpa os comentarios antigos
+        divComentarios.innerHTML = '';
+
         comentarios.forEach(comentario => {
             const comentarioFeito = document.createElement('div');
             comentarioFeito.className = 'comentario';
+
             comentarioFeito.innerHTML = `
-                <h3>${comentario.nome}</h3>
+                <div class="cabecalho">
+                    <span>${comentario.usuario.perfil.perfil} - ${comentario.data.split('T')[0]}</span>
+                </div>
                 <p>${comentario.comentario}</p>
-                <p>${comentario.data.split('T')[0]}</p>
             `;
 
             divComentarios.appendChild(comentarioFeito);
-        });
+        }); 
 } catch (e) {
     console.error(e);
     alert('Erro ao buscar comentarios:'+ e.message);
 }
 }
+
+
+//Add comentario
+
+const formAddComentario = document.getElementById('comentarioForm');
+
+formAddComentario.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const texto = formAddComentario.novocomentario.value.trim();
+    if (texto === '') {
+        alert("O comentário não pode ser vazio ou conter apenas espaços!");
+        return;
+    }
+
+    const data = new Date();
+    const dataISO = data.toISOString();
+    
+    const IdEquipamento = equipamentoIdGlobal;
+
+    // Obter o ID do usuário atual do localStorage
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    const usuarioId = usuario ? usuario.id : null;
+    console.log(usuarioId);
+    // Verificar se o 'usuarioId' está presente
+    if (!usuarioId) {
+        alert("Você precisa estar logado para adicionar um comentário!");
+        return;
+    }
+
+    // Criar o objeto de comentário para enviar ao backend
+    const novoComentario = {
+        comentario: texto,
+        data: dataISO,
+        usuarioId: usuarioId,
+        equipamentoId: IdEquipamento,
+    };
+
+    try {
+        // Enviar o comentário para o backend via POST
+        const response = await fetch('http://localhost:3000/comentario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(novoComentario),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Comentário enviado com sucesso!', data);
+            alert('Sucesso! Comentário cadastrado para o equipamento.');
+            formAddComentario.novocomentario.value = '';
+            comentarioModal.style.display = 'none';
+        } else {
+            console.error('Erro ao enviar o comentário');
+        }
+    } catch (error) {
+        console.error('Erro de rede:', error);
+        alert('Erro ao enviar o comentário. Tente novamente mais tarde.');
+    }
+
+    window.location.reload();
+});

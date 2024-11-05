@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 const read = async (req, res) => {
     try {
         if (req.params.id) {
-            // Busca um equipamento específico se o ID estiver definido
             const equipamento = await prisma.equipamento.findUnique({
                 where: {
                     id: parseInt(req.params.id),
@@ -17,7 +16,6 @@ const read = async (req, res) => {
             return res.status(200).json(equipamento); // Retorna o equipamento encontrado
         }
 
-        // Se não houver ID, busca todos os equipamentos
         const equipamentos = await prisma.equipamento.findMany();
         return res.status(200).json(equipamentos); // Retorna a lista de equipamentos
 

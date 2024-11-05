@@ -16,16 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-     // Adiciona eventos aos botões numéricos
+    // Adiciona eventos aos botões numéricos
     const botoesNumeros = document.querySelectorAll('.tecla:not(#limpar, #submit)');
     botoesNumeros.forEach(botao => {
         botao.addEventListener('click', () => adicionarNumero(botao.textContent));
     });
  
-     // Evento para o botão de limpar
-     document.getElementById("limpar").addEventListener('click', () => {
-         senhaInput.value = "";
-     });
+    // Evento para o botão de limpar
+    document.getElementById("limpar").addEventListener('click', () => {
+        senhaInput.value = "";
+    });
 
     // Handle form submission
     document.getElementById('login').addEventListener('submit', async (event) => {
@@ -39,15 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ senha }),
-        })
+        });
+
         if (response.status == 401) {
             alert('Senha incorreta!');
             senhaInput.value = '';
         } else {
             const usuario = await response.json();
-            localStorage.setItem('usuario', JSON.stringify({perfil: usuario.perfil})); // After login success
+
+            // Aqui você inclui o 'id' e o 'perfil' do usuário no localStorage
+            localStorage.setItem('usuario', JSON.stringify({ id: usuario.id, perfil: usuario.perfil }));
+
+            // Redireciona para a página inicial ou página desejada após login
             window.location.href = 'index.html';
         }
-        
     });
 });

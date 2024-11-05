@@ -38,8 +38,8 @@ addEventListener('DOMContentLoaded', () => {
                         <h2>${equipamento.nome}</h2>
                         <p>${equipamento.descricao}</p>
                         <div class="botoes">
-                            <button id="btnComentario" onclick="abrirModalComentario(${equipamento.id})">&#128172;</button>
-                            ${usuario.perfil.perfil === 'Administrador' ? `<button id="btnExcluir" onclick="abrirModalExcluir(${equipamento.id})">&#128465;</button>` : ''}
+                            <button id="btnComentario" onclick="abrirModalComentario(${equipamento.id}); getComentarios(${equipamento.id})">&#128172;</button>
+                            ${usuario.perfil.perfil === 'Administrador' ? `<button onclick="abrirModalExcluir(${equipamento.id})">&#128465;</button>` : ''}
                         </div>
                     </div>`;
                     main.appendChild(div);
